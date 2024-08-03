@@ -1,0 +1,5 @@
+flask
+requests
+os
+flask_session
+cs50

@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <!-- First Form (Search by City) -->
+        <div class="col">
+            <div class="card h-100 mx-auto">
+                <div class="card-body d-flex flex-column justify-content-center text-center" >
+                    <h2 class="mb-4">Weather Search</h2>
+                    <form action="/weather" method="get">
+                        <div class="mb-3">
+                            <input autocomplete="off" autofocus class="form-control" id="city" name="city_name" placeholder="City Name" type="text">
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" type="submit">Search by City</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Form (Search by Coordinates) -->
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column justify-content-center text-center">
+                    <h2 class="text-center mb-4">Weather Search</h2>
+                    <form action="/weather" method="get">
+                        <div class="mb-3">
+                            <input autocomplete="off" autofocus class="form-control" id="lat" name="lat" placeholder="Latitude" type="text">
+                            <input autocomplete="off" autofocus class="form-control" id="lon" name="lon" placeholder="Longitude" type="text">
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" type="submit">Search by Coordinates</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Favorite cities -->
+<div class="container mt-4">
+    <h2><strong> Favorite Cities </strong></h2>
+    <div class="row">
+        {% for city, weather_info in zipped_data %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        {% if 'error' not in weather_info %}
+                            <h3><strong> {{ weather_info.name }}</strong></h3>
+                            <p>Temperature: {{ weather_info.temperature }} °C</p>
+                            <p>Humidity: {{ weather_info.humidity }}</p>
+                            <p>Feels like: {{ weather_info.feels_like }} °C</p>
+                            <p>Wind Speed: {{ weather_info.wind_speed }}</p>
+                            <img src="http://openweathermap.org/img/w/{{ weather_info.icon }}.png" alt="Weather Icon">
+                        {% else %}
+                            <p>Error: {{ weather_info.error }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- <a href="/favorites">View All Favorites</a> -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    // AJAX
+    // Function to fetch and display favorite weather information
+    function getFavoriteWeather() {
+        $.get('/favt_weather', function (data) {
+            console.log('Received data:', data);
+
+            try {
+                let weatherInfoList = data.weather_info_list;
+                console.log('Weather Info List:', weatherInfoList);
+
+                // Clear existing content
+                $('#favoriteWeatherList').html('');
+
+                // Update the HTML to display the information
+                for (let i = 0; i < weatherInfoList.length; i++) {
+                    let weatherInfo = weatherInfoList[i];
+                    if ('error' in weatherInfo) {
+                        // Handle errors
+                        $('#favoriteWeatherList').append('<p>Error: ' + weatherInfo.error + '</p>');
+                    } else {
+                        // Display weather information
+                        $('#favoriteWeatherList').append('<p>City: ' + weatherInfo.name + '</p>');
+                        $('#favoriteWeatherList').append('<p>Temperature: ' + weatherInfo.temperature + ' °C</p>');
+                        $('#favoriteWeatherList').append('<p>Humidity: ' + weatherInfo.humidity + '</p>');
+                        $('#favoriteWeatherList').append('<p>Feels like: ' + weatherInfo.feels_like + '</p>');
+                        $('#favoriteWeatherList').append('<p>Wind Speed: ' + weatherInfo.wind_speed + '</p>');
+                        $('#favoriteWeatherList').append('<img src="http://openweathermap.org/img/w/' + weatherInfo.icon + '.png" alt="Image">');
+                    }
+                }
+            } catch (error) {
+                console.error('Error processing JSON:', error);
+            }
+        });
+    }
+
+    // Call the function when the page loads
+    $(document).ready(function () {
+        getFavoriteWeather();
+    });
+</script>
+
+<script>
+    // JavaScript to enforce both lat and lon if one is filled
+    document.getElementById('weatherForm').addEventListener('submit', function(event) {
+      const lat = document.getElementById('lat').value;
+      const lon = document.getElementById('lon').value;
+      
+      if ((lat && !lon) || (!lat && lon)) {
+        alert('Please enter both Latitude and Longitude or leave both empty.');
+        event.preventDefault(); // Prevent form submission
+      }
+    });
+</script>
+{% endblock %}

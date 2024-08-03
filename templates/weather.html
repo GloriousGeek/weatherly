@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Weather Details
+{% endblock %}
+
+{% block main %}
+    <!-- Fetching data from weather_info dict in app.py -->
+    <h2>Weather Details for {{ weather_info.name }}</h2>
+    <!-- Add content to display weather information here -->
+    <p>Temperature: {{ weather_info.temperature }} °C</p>
+    <p>Humidity: {{ weather_info.humidity }}</p>
+    <p>Feels Like: {{ weather_info.feels_like }} °C</p>
+    <p>Wind Speed: {{ weather_info.wind_speed }}</p>
+    <img src="http://openweathermap.org/img/w/{{ weather_info.icon }}.png" alt="Image">
+    <!-- Add more weather details as needed -->
+{% endblock %}

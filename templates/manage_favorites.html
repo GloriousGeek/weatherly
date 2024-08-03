@@ -1,0 +1,51 @@
+<!-- For deleting favorites -->
+{% extends "layout.html" %}
+
+{% block title %}
+    Manage Favorites
+{% endblock %}
+
+
+    <!-- <div class="container">
+        <h2>Manage Favorites</h2>
+        <ul>
+            {% for favorite in favorites %}
+                <li>
+                    {{ favorite.city_name }}
+                    <form action="/manage_favorites" method="post" style="display: inline;">
+                        <input type="hidden" name="city_id" value="{{ favorite.id }}">
+                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div> -->
+
+
+{% block main %}
+    <div class="container">
+        <h2>Manage Favorites</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">City Name</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for favorite in favorites %}
+                    <tr>
+                        <td>{{ favorite.city_name.title() }}</td>
+                        <td>
+                            <form action="/manage_favorites" method="post" style="display: inline;">
+                                <input type="hidden" name="city_id" value="{{ favorite.id }}">
+                                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

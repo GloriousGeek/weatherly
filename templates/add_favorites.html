@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Favorite City
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h2 class="afc">Add Favorite City</h2>
+        <form alight="center" class="form_fav" action="/add_favorites" method="post">
+            <div class="mb-3">
+                <!-- <label for="city" class="form-label"><strong>Write City Name Below</strong></label> -->
+                <input autocomplete="off" autofocus class="form-control" id="city" name="city_name" placeholder="City Name" type="text" required>
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit">Add to Favorites</button>
+            </div>
+        </form>     
+    </div>
+{% endblock %}

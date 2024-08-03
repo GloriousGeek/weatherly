@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Favorite Cities
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h2>Your Favorite Cities</h2>
+        <ul>
+            <div class="row">
+                {% for city, city_weather_into in zipped_data %}
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                {% if 'error' not in city_weather_into %}
+                                    <h3><strong> {{ city_weather_into.name }}</strong></h3>
+                                    <p>Temperature: {{ city_weather_into.temperature }} °C</p>
+                                    <p>Humidity: {{ city_weather_into.humidity }}</p>
+                                    <p>Feels like: {{ city_weather_into.feels_like }} °C</p>
+                                    <p>Wind Speed: {{ city_weather_into.wind_speed }}</p>
+                                    <img src="http://openweathermap.org/img/w/{{ city_weather_into.icon }}.png" alt="Weather Icon">
+                                {% else %}
+                                    <p>Error: {{ city_weather_into.error }}</p>
+                                {% endif %}   
+                            </div>
+                        </div>
+                    </div>  
+                {% endfor %}
+            </div>
+
+            <!-- {% for city_weather_into in city_weather_into_list %}
+            <p>City: {{ city_weather_into.name }}</p>
+            <p>City: {{ city_weather_into.temperature }}</p>
+                Add other weather information here -->
+             <!-- {% endfor %} --> 
+        </ul>
+    </div>
+{% endblock %}
