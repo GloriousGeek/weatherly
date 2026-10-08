@@ -16,7 +16,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-api_key = "dee1639976652cfd11372537874e3826"
+api_key = api
 
 db = SQL("sqlite:///weather.db")
 
