@@ -17,7 +17,7 @@ def get_weather():
         lon = request.args.get('lon')
         city_name = request.args.get('city_name')
 
-        api_key = "dee1639976652cfd11372537874e3826"
+        api_key = api
 
         # Ensure api_key is provided
         if not api_key:
